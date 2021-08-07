@@ -82,18 +82,23 @@ for empresa in fundamentos:
 
 fundamentos["ABEV3"].shape
 
-data_inicial = "12/20/2021"
-data_final = "04/20/2021"
+data_inicial = "2021-04-20"  ##mudança na forma de tratar as datas yyyy/mm/dd
+data_final = "2021-12-20"
 
-from pandas_datareader import data as web
-df_ibov = web.DataReader('^BVSP', data_source='yahoo', start=data_inicial, end=data_final)
+from pandas_datareader import data as pdr
+import yfinance as yfin
+
+yfin.pdr_override()
+df_ibov = pdr.get_data_yahoo(f'^BVSP', start=data_inicial, end=data_final)    ##faz a mesma coisa
+print(df_ibov)
+# df_ibov = web.DataReader('^BVSP', data_source='yahoo', start=data_inicial, end=data_final)
 
 import numpy as np
 
 datas = fundamentos["ABEV3"].index
 for data in datas:
     if data not in df_ibov.index:
-        df_ibov,loc[data] = np.nan
+        df_ibov.loc[data] = np.nan
 df_ibov = df_ibov.sort_index()
 df_ibov = df_ibov.ffill()
 df_ibov = df_ibov.rename(columns={"Adj Close": "IBOV"})
@@ -102,7 +107,7 @@ for empresa in fundamentos:
 
 for empresa in fundamentos:
     fundamento = fundamentos[empresa]
-    fundamento = fundamentos.sort_index()
+    fundamento = fundamento.sort_index()
     for coluna in fundamento:
         if "Adj Close" in coluna or "IBOV" in coluna:
             pass 
