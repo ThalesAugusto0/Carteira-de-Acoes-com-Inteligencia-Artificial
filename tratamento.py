@@ -89,9 +89,8 @@ from pandas_datareader import data as pdr
 import yfinance as yfin
 
 yfin.pdr_override()
-df_ibov = pdr.get_data_yahoo(f'^BVSP', start=data_inicial, end=data_final)    ##faz a mesma coisa
+df_ibov = pdr.get_data_yahoo(f'^BVSP', start=data_inicial, end=data_final)
 print(df_ibov)
-# df_ibov = web.DataReader('^BVSP', data_source='yahoo', start=data_inicial, end=data_final)
 
 import numpy as np
 
@@ -162,7 +161,7 @@ for empresa in fundamentos:
     fundamentos[empresa] = fundamentos[empresa].fillna(0)
 
 for empresa in fundamentos:
-    fundamentos[empresa] = fundamentos[empresa].drop(["Adj Close", "IBOV", "Resultado"], axis=1)
+    fundamentos[empresa] = fundamentos[empresa].drop(["Adj Close"], axis=1)
 
 copia_fundamentos = fundamentos.copy()
 
