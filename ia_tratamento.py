@@ -1,8 +1,7 @@
 import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
-import tratamento
-# from tratamento import copia_fundamentos (ver como funciona)
+from tratamento import copia_fundamentos
 
 base_dados.loc[base_dados["Decisao"]==1, "Decisao"] = 0
 display(base_dados['Decisao'].value_counts(normalize=True).map("{:.1%}".format))
