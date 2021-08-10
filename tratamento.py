@@ -109,7 +109,7 @@ for empresa in fundamentos:
     fundamento = fundamento.sort_index()
     for coluna in fundamento:
         if "Adj Close" in coluna or "IBOV" in coluna:
-            pass 
+            pass
         else:
             condicoes = [
                 (fundamento[coluna].shift(1) > 0) & (fundamento[coluna] < 0),
@@ -128,17 +128,18 @@ for empresa in fundamentos:
                 1,
             ]
             fundamento[coluna] = np.select(condicoes, valores, default=fundamento[coluna] / fundamento[coluna].shift(1) - 1)
-    
-    fundamento["Adj Close"] = fundamento["Adj Close"].shift(-1) / fundamento["Adj Close"] -1
-    fundamento["IBOV"] = fundamento["IBOV"].shift(-1) / fundamento["IBOV"] -1
+
+    fundamento["Adj Close"] = fundamento["Adj Close"].shift(-1) / fundamento["Adj Close"] - 1
+    fundamento["IBOV"] = fundamento["IBOV"].shift(-1) / fundamento["IBOV"] - 1
     fundamento["Resultado"] = fundamento["Adj Close"] - fundamento["IBOV"]
     condicoes = [
         (fundamento["Resultado"] > 0),
         (fundamento["Resultado"] < 0) & (fundamento["Resultado"] >= -0.02),
-        (fundamento["Resultado"] < -0.2)
+        (fundamento["Resultado"] < -0.02)
     ]
     valores = [2, 1, 0]
     fundamento["Decisao"] = np.select(condicoes, valores)
+    
     fundamentos[empresa] = fundamento
 
 colunas = list(fundamentos["ABEV3"].columns)
@@ -161,7 +162,7 @@ for empresa in fundamentos:
     fundamentos[empresa] = fundamentos[empresa].fillna(0)
 
 for empresa in fundamentos:
-    fundamentos[empresa] = fundamentos[empresa].drop(["Adj Close"], axis=1)
+    fundamentos[empresa] = fundamentos[empresa].drop(["Adj Close", "IBOV", "Resultado"], axis=1)
 
 copia_fundamentos = fundamentos.copy()
 
