@@ -1,6 +1,12 @@
+from IPython.display import display
+import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
+from tratamento import copia_fundamentos
+import sys
+sys.path.insert(0, r"C:\Users\thall\Documents\Projetos\Carteira-de-Acoes-com-Inteligencia-Artificial\tratamento.py")
+from tratamento import base_dados
 from tratamento import copia_fundamentos
 
 base_dados.loc[base_dados["Decisao"]==1, "Decisao"] = 0
