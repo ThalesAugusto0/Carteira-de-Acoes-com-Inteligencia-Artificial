@@ -24,9 +24,6 @@ for empresa in fundamentos:
     fundamentos[empresa] = fundamentos[empresa].merge(df_ibov[["IBOV"]], left_index=True, right_index=True)
 display(fundamentos["ABEV3"])
 
-# tornar os nossos indicadores em percentuais
-# fundamento%tri = fundamento tr / fundamento tri anterior
-# cotacao%tri = cotacao tri seguinte / cotacao tri
 for empresa in fundamentos:
     fundamento = fundamentos[empresa]
     fundamento = fundamento.sort_index()
@@ -34,7 +31,6 @@ for empresa in fundamentos:
         if "Adj Close" in coluna or "IBOV" in coluna:
             pass
         else:
-            # pegar a cotação anterior
             condicoes = [
                 (fundamento[coluna].shift(1) > 0) & (fundamento[coluna] < 0),
                 (fundamento[coluna].shift(1) < 0) & (fundamento[coluna] > 0),
@@ -52,7 +48,7 @@ for empresa in fundamentos:
                 1,
             ]
             fundamento[coluna] = np.select(condicoes, valores, default=fundamento[coluna] / fundamento[coluna].shift(1) - 1)
-    # pegar cotação seguinte
+
     fundamento["Adj Close"] = fundamento["Adj Close"].shift(-1) / fundamento["Adj Close"] - 1
     fundamento["IBOV"] = fundamento["IBOV"].shift(-1) / fundamento["IBOV"] - 1
     fundamento["Resultado"] = fundamento["Adj Close"] - fundamento["IBOV"]
@@ -67,7 +63,7 @@ for empresa in fundamentos:
     fundamentos[empresa] = fundamento
 display(fundamentos["ABEV3"])
 
-# remover valores vazios
+
 colunas = list(fundamentos["ABEV3"].columns)
 valores_vazios = dict.fromkeys(colunas, 0)
 total_linhas = 0
@@ -110,7 +106,7 @@ display(base_dados['Decisao'].value_counts(normalize=True).map("{:.1%}".format))
 fig = px.histogram(base_dados, x="Decisao", color="Decisao")
 fig.show()
 
-# vou tirar a categoria 1 e transformar em 0
+
 base_dados.loc[base_dados["Decisao"]==1, "Decisao"] = 0
 display(base_dados['Decisao'].value_counts(normalize=True).map("{:.1%}".format))
 fig = px.histogram(base_dados, x="Decisao", color="Decisao")
@@ -137,7 +133,7 @@ base_dados = base_dados.drop(remover, axis=1)
 
 print(base_dados.shape)
 
-# vamos treinar uma arvore de decisao e pegar as caracteristicas mais importantes dela
+
 from sklearn.ensemble import ExtraTreesClassifier
 
 modelo = ExtraTreesClassifier(random_state=1)

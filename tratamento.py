@@ -3,10 +3,7 @@ import os
 from IPython.display import display
 
 empresas = ["ABEV3", "AZUL4", "BTOW3", "B3SA3", "BBSE3", "BRML3", "BBDC4", "BRAP4", "BBAS3", "BRKM5", "BRFS3", "BPAC11", "CRFB3", "CCRO3", "CMIG4", "HGTX3", "CIEL3", "COGN3", "CPLE6", "CSAN3", "CPFE3", "CVCB3", "CYRE3", "ECOR3", "ELET6", "EMBR3", "ENBR3", "ENGI11", "ENEV3", "EGIE3", "EQTL3", "EZTC3", "FLRY3", "GGBR4", "GOAU4", "GOLL4", "NTCO3", "HAPV3", "HYPE3", "IGTA3", "GNDI3", "ITSA4", "ITUB4", "JBSS3", "JHSF3", "KLBN11", "RENT3", "LCAM3", "LAME4", "LREN3", "MGLU3", "MRFG3", "BEEF3", "MRVE3", "MULT3", "PCAR3", "PETR4", "BRDT3", "PRIO3", "QUAL3", "RADL3", "RAIL3", "SBSP3", "SANB11", "CSNA3", "SULA11", "SUZB3", "TAEE11", "VIVT3", "TIMS3", "TOTS3", "UGPA3", "USIM5", "VALE3", "VVAR3", "WEGE3", "YDUQ3"]
-# fundamentos = {
-#     "ABEV3": balanco_dre_abev3,
-#     "MGLU3": balanco_dre_mglu3
-# }
+
 fundamentos = {}
 arquivos = os.listdir("balancos")
 for arquivo in arquivos:
@@ -15,22 +12,15 @@ for arquivo in arquivos:
         nome = arquivo[-10:-4]
     if nome in empresas:
         print(nome)
-        # pegar o balanco daquela empresa
         balanco = pd.read_excel(f'balancos/{arquivo}', sheet_name=0)
-        # na primeira coluna colocar o título com o nome da empresa
         balanco.iloc[0, 0] = nome
-        # pegar 1ª linha e tornar um cabeçalho
         balanco.columns = balanco.iloc[0]
         balanco = balanco[1:]
-        # tornar a 1ª coluna (que agora tem o nome da emrpesa)
         balanco = balanco.set_index(nome)
         dre = pd.read_excel(f'balancos/{arquivo}', sheet_name=1)
-        # na primeira coluna colocar o título com o nome da empresa
         dre.iloc[0, 0] = nome
-        # pegar 1ª linha e tornar um cabeçalho
         dre.columns = dre.iloc[0]
         dre = dre[1:]
-        # tornar a 1ª coluna (que agora tem o nome da emrpesa)
         dre = dre.set_index(nome)
         fundamentos[nome] = balanco.append(dre)
 
@@ -48,11 +38,6 @@ for empresa in empresas:
 empresas = list(cotacoes.keys())
 print(len(empresas))
 
-# no cotacoes: jogar as datas para índice
-# no fundamnetos:
-    # trocar linhas por colunas
-    # tratar as datas para formato de data do python
-    # juntar os fundamentos com a coluna Adj Close das cotacoes
 for empresa in fundamentos:
     tabela = fundamentos[empresa].T
     tabela.index = pd.to_datetime(tabela.index, format="%d/%m/%Y")
@@ -81,14 +66,9 @@ for coluna in colunas:
 colunas = texto_colunas.split(';')
 print(colunas)
 
-# implementar as colunas nas tabelas
 for empresa in fundamentos:
     fundamentos[empresa].columns = colunas
 
-# valores_vazios = {
-#     "Ativo Total": 0,
-#     "Passivo Total": 0,
-# }
 valores_vazios = dict.fromkeys(colunas, 0)
 total_linhas = 0
 for empresa in fundamentos:
