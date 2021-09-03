@@ -272,7 +272,7 @@ carteira_inicial = []
 for i, empresa in enumerate(lista_empresas):
     if previsoes_ult_tri[i] == 2:
         print(empresa)
-        carteira_inicial.append(1000)
+        carteira_inicial.append(1000) 
         cotacao = cotacoes[empresa]
         cotacao = cotacao.set_index("Date")
         cotacao_inicial = cotacao.loc["2020-12-31", "Adj Close"]
