@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # This program is dedicated to the public domain under the CC0 license.
+# comando para iniciar o bot pipenv run python bot.py 
 
 """
 Bot simples para responder às mensagens do Telegram.
