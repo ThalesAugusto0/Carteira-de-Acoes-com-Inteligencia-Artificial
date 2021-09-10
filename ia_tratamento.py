@@ -6,7 +6,7 @@ from IPython.display import display
 from tratamento import *
 
 data_inicial = "12/20/2012" 
-data_final = "04/20/2021"
+data_final = "04/20/2021" #06/30/2021
 
 from pandas_datareader import data as web
 df_ibov = web.DataReader('^BVSP', data_source='yahoo', start=data_inicial, end=data_final)
@@ -22,7 +22,7 @@ df_ibov = df_ibov.ffill()
 df_ibov = df_ibov.rename(columns={"Adj Close": "IBOV"})
 for empresa in fundamentos:
     fundamentos[empresa] = fundamentos[empresa].merge(df_ibov[["IBOV"]], left_index=True, right_index=True)
-display(fundamentos["ABEV3"])
+# display(fundamentos["ABEV3"])
 
 for empresa in fundamentos:
     fundamento = fundamentos[empresa]
@@ -61,7 +61,7 @@ for empresa in fundamentos:
     fundamento["Decisao"] = np.select(condicoes, valores)
     
     fundamentos[empresa] = fundamento
-display(fundamentos["ABEV3"])
+# display(fundamentos["ABEV3"])
 
 
 colunas = list(fundamentos["ABEV3"].columns)
@@ -73,8 +73,8 @@ for empresa in fundamentos:
     for coluna in colunas:
         qtde_vazios = pd.isnull(tabela[coluna]).sum()
         valores_vazios[coluna] += qtde_vazios
-print(valores_vazios)
-print(total_linhas)
+# print(valores_vazios)
+# print(total_linhas)
 
 remover_colunas = []
 for coluna in valores_vazios:
@@ -87,7 +87,7 @@ for empresa in fundamentos:
 
 for empresa in fundamentos:
     fundamentos[empresa] = fundamentos[empresa].drop(["Adj Close", "IBOV", "Resultado"], axis=1)
-print(fundamentos["ABEV3"].shape)
+# print(fundamentos["ABEV3"].shape)
 
 copia_fundamentos = fundamentos.copy()
 
@@ -96,7 +96,7 @@ for empresa in copia_fundamentos:
     copia_fundamentos[empresa] = copia_fundamentos[empresa][1:-1]
     copia_fundamentos[empresa] = copia_fundamentos[empresa].reset_index(drop=True)
     base_dados = base_dados.append(copia_fundamentos[empresa])
-display(base_dados)
+# display(base_dados)
 
 import plotly.express as px
 import matplotlib.pyplot as plt
@@ -117,7 +117,7 @@ correlacoes = base_dados.corr()
 fig, ax = plt.subplots(figsize=(15, 10))
 sns.heatmap(correlacoes, cmap="Wistia", ax=ax)
 plt.show()
-display(correlacoes)
+# display(correlacoes)
 
 correlacoes_encontradas = []
 for coluna in correlacoes:
@@ -131,7 +131,7 @@ for coluna in correlacoes:
 remover = ['Ativo Circulante', 'Contas a Receber_1', 'Tributos a Recuperar', 'Passivo Total', 'Passivo Circulante', 'Patrimônio Líquido', 'Capital Social Realizado', 'Receita Líquida de Vendas e/ou Serviços', 'Resultado Bruto', 'Despesas Gerais e Administrativas']
 base_dados = base_dados.drop(remover, axis=1)
 
-print(base_dados.shape)
+# print(base_dados.shape)
 
 
 from sklearn.ensemble import ExtraTreesClassifier
@@ -144,7 +144,7 @@ modelo.fit(x, y)
 caracteristicas_importantes = pd.DataFrame(modelo.feature_importances_, x.columns).sort_values(by=0, ascending=False)
 display(caracteristicas_importantes)
 top10 = list(caracteristicas_importantes.index)[:10]
-print(top10)
+# print(top10)
 
 from sklearn.preprocessing import StandardScaler
 
@@ -160,7 +160,7 @@ nova_base_dados = ajustar_scaler(base_dados)
 top10.append("Decisao") 
 
 nova_base_dados = nova_base_dados[top10].reset_index(drop=True)
-display(nova_base_dados)
+# display(nova_base_dados)
 
 from sklearn.model_selection import train_test_split
 

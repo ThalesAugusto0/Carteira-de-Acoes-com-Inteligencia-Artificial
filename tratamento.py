@@ -29,14 +29,14 @@ cotacoes = {}
 for empresa in cotacoes_df["Empresa"].unique():
     cotacoes[empresa] = cotacoes_df.loc[cotacoes_df['Empresa']==empresa, :]
 
-print(len(cotacoes))
+# print(len(cotacoes))
 
 for empresa in empresas:
     if cotacoes[empresa].isnull().values.any():
         cotacoes.pop(empresa)
         fundamentos.pop(empresa)
 empresas = list(cotacoes.keys())
-print(len(empresas))
+# print(len(empresas))
 
 for empresa in fundamentos:
     tabela = fundamentos[empresa].T
@@ -47,14 +47,14 @@ for empresa in fundamentos:
     tabela = tabela.merge(tabela_cotacao, right_index=True, left_index=True)
     tabela.index.name = empresa
     fundamentos[empresa] = tabela
-display(fundamentos["ABEV3"])
+# display(fundamentos["ABEV3"])
 
 colunas = list(fundamentos["ABEV3"].columns)
 
 for empresa in empresas:
     if set(colunas) != set(fundamentos[empresa].columns):
         fundamentos.pop(empresa)
-print(len(fundamentos))
+# print(len(fundamentos))
 
 texto_colunas = ";".join(colunas)
 
@@ -64,7 +64,7 @@ for coluna in colunas:
         texto_colunas = texto_colunas.replace(";" + coluna + ";",";" + coluna + "_1;", 1)
         colunas_modificadas.append(coluna)
 colunas = texto_colunas.split(';')
-print(colunas)
+# print(colunas)
 
 for empresa in fundamentos:
     fundamentos[empresa].columns = colunas
@@ -77,8 +77,8 @@ for empresa in fundamentos:
     for coluna in colunas:
         qtde_vazios = pd.isnull(tabela[coluna]).sum()
         valores_vazios[coluna] += qtde_vazios
-print(valores_vazios)
-print(total_linhas)
+# print(valores_vazios)
+# print(total_linhas)
 
 remover_colunas = []
 for coluna in valores_vazios:
