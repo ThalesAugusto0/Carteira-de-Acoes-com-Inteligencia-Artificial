@@ -8,7 +8,7 @@ from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 
 
-modelo = RandomForestClassifier(n_estimators = 1000,random_state=0) #! n_estimators(numero de arvores) quanto maior melhor(consome mais do pc) 
+modelo = RandomForestClassifier(n_estimators = 1000, random_state=0, n_jobs=-1 ) #! n_estimators(numero de arvores) quanto maior melhor(consome mais do pc) 
 #! min_samples_leaf numero de exemplos minimo em um nó muda-lo pode melhorar ou piorar 
 
 
