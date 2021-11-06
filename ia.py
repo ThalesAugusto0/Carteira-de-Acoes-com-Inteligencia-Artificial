@@ -8,16 +8,16 @@ from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 
 modelos = {
-    "AdaBoost": AdaBoostClassifier(random_state=1),
-    "DecisionTree": DecisionTreeClassifier(random_state=1),
+    # "AdaBoost": AdaBoostClassifier(random_state=1),
+    # "DecisionTree": DecisionTreeClassifier(random_state=1),
     "RandomForest": RandomForestClassifier(random_state=1),
-    "ExtraTree": ExtraTreesClassifier(random_state=1),
-    "GradientBoost": GradientBoostingClassifier(random_state=1),
-    "KNN": KNeighborsClassifier(),
-    "LogisticRegression": LogisticRegression(random_state=1),
-    "NaiveBayes": GaussianNB(),
-    "SVM": SVC(random_state=1),
-    "RedeNeural": MLPClassifier(random_state=1, max_iter=400),
+    # "ExtraTree": ExtraTreesClassifier(random_state=1),
+    # "GradientBoost": GradientBoostingClassifier(random_state=1),
+    # "KNN": KNeighborsClassifier(),
+    # "LogisticRegression": LogisticRegression(random_state=1),
+    # "NaiveBayes": GaussianNB(),
+    # "SVM": SVC(random_state=1),
+    # "RedeNeural": MLPClassifier(random_state=1, max_iter=400),
 }
 
 for nome_modelo in modelos:

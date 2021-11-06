@@ -1,11 +1,11 @@
 from ia import *
 from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier, RandomForestClassifier, ExtraTreesClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB
-from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier
+# from sklearn.tree import DecisionTreeClassifier
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.linear_model import LogisticRegression
+# from sklearn.naive_bayes import GaussianNB
+# from sklearn.svm import SVC
+# from sklearn.neural_network import MLPClassifier
 
 
 modelo = RandomForestClassifier(n_estimators = 1000, random_state=0, n_jobs=-1 ) #! n_estimators(numero de arvores) quanto maior melhor(consome mais do pc) 
@@ -24,7 +24,7 @@ from sklearn.metrics import make_scorer, precision_score
 
 modelo_final = modelo
 
-n_estimators = range(10, 251, 30)
+# n_estimators = range(10, 251, 30)
 max_features = list(range(2, 11, 2))
 max_features.append('auto')
 min_samples_split = range(2, 11, 2)
@@ -79,7 +79,7 @@ for i, empresa in enumerate(lista_empresas):
         cotacao = cotacoes[empresa]
         cotacao = cotacao.set_index("Date")
         cotacao_inicial = cotacao.loc["2020-12-31", "Adj Close"]
-        cotacao_final = cotacao.loc["2021-03-31", "Adj Close"]
+        cotacao_final = cotacao.loc["2021-06-31", "Adj Close"]
         percentual = cotacao_final / cotacao_inicial
         carteira.append(1000 * percentual)
         
