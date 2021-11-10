@@ -32,7 +32,7 @@ from sklearn.metrics import make_scorer, precision_score
 
 modelo_final = modelos["RandomForest"]
 
-n_estimators = range(10, 251, 30)
+n_estimators = range(800, 1000)
 max_features = list(range(2, 11, 2))
 max_features.append('auto')
 min_samples_split = range(2, 11, 2)
@@ -87,7 +87,7 @@ for i, empresa in enumerate(lista_empresas):
         cotacao = cotacoes[empresa]
         cotacao = cotacao.set_index("Date")
         cotacao_inicial = cotacao.loc["2020-12-31", "Adj Close"]
-        cotacao_final = cotacao.loc["2021-03-31", "Adj Close"]
+        cotacao_final = cotacao.loc["2021-06-31", "Adj Close"]
         percentual = cotacao_final / cotacao_inicial
         carteira.append(1000 * percentual)
         
