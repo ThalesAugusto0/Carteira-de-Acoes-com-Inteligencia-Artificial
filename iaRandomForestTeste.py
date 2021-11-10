@@ -1,38 +1,30 @@
-from ia_tratamento import *
+from ia import *
 from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier, RandomForestClassifier, ExtraTreesClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB
-from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier
+# from sklearn.tree import DecisionTreeClassifier
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.linear_model import LogisticRegression
+# from sklearn.naive_bayes import GaussianNB
+# from sklearn.svm import SVC
+# from sklearn.neural_network import MLPClassifier
 
-modelos = {
-    # "AdaBoost": AdaBoostClassifier(random_state=1),
-    # "DecisionTree": DecisionTreeClassifier(random_state=1),
-    "RandomForest": RandomForestClassifier(random_state=1),
-    # "ExtraTree": ExtraTreesClassifier(random_state=1),
-    # "GradientBoost": GradientBoostingClassifier(random_state=1),
-    # "KNN": KNeighborsClassifier(),
-    # "LogisticRegression": LogisticRegression(random_state=1),
-    # "NaiveBayes": GaussianNB(),
-    # "SVM": SVC(random_state=1),
-    # "RedeNeural": MLPClassifier(random_state=1, max_iter=400),
-}
 
-for nome_modelo in modelos:
-    modelo = modelos[nome_modelo]
-    modelo.fit(x_treino, y_treino)
-    previsoes = modelo.predict(x_teste)
-    avaliar(y_teste, previsoes, nome_modelo)
-    modelos[nome_modelo] = modelo
+modelo = RandomForestClassifier(n_estimators = 1000, random_state=0, n_jobs=-1 ) #! n_estimators(numero de arvores) quanto maior melhor(consome mais do pc) 
+#! min_samples_leaf numero de exemplos minimo em um nó muda-lo pode melhorar ou piorar 
 
+
+modelo.fit(x_treino, y_treino)
+previsoes = modelo.predict(x_teste)
+avaliar(y_teste, previsoes, nome_modelo)
+
+
+#? daqui para baixo continua igual 
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import make_scorer, precision_score
 
-modelo_final = modelos["RandomForest"]
 
-n_estimators = range(800, 1000)
+modelo_final = modelo
+
+# n_estimators = range(10, 251, 30)
 max_features = list(range(2, 11, 2))
 max_features.append('auto')
 min_samples_split = range(2, 11, 2)
