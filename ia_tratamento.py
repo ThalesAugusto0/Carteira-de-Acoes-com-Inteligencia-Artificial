@@ -22,7 +22,6 @@ df_ibov = df_ibov.ffill()
 df_ibov = df_ibov.rename(columns={"Adj Close": "IBOV"})
 for empresa in fundamentos:
     fundamentos[empresa] = fundamentos[empresa].merge(df_ibov[["IBOV"]], left_index=True, right_index=True)
-display(fundamentos["ABEV3"])
 
 for empresa in fundamentos:
     fundamento = fundamentos[empresa]
@@ -61,7 +60,6 @@ for empresa in fundamentos:
     fundamento["Decisao"] = np.select(condicoes, valores)
     
     fundamentos[empresa] = fundamento
-display(fundamentos["ABEV3"])
 
 
 colunas = list(fundamentos["ABEV3"].columns)
@@ -87,7 +85,6 @@ for empresa in fundamentos:
 
 for empresa in fundamentos:
     fundamentos[empresa] = fundamentos[empresa].drop(["Adj Close", "IBOV", "Resultado"], axis=1)
-print(fundamentos["ABEV3"].shape)
 
 copia_fundamentos = fundamentos.copy()
 
@@ -96,7 +93,6 @@ for empresa in copia_fundamentos:
     copia_fundamentos[empresa] = copia_fundamentos[empresa][1:-1]
     copia_fundamentos[empresa] = copia_fundamentos[empresa].reset_index(drop=True)
     base_dados = base_dados.append(copia_fundamentos[empresa])
-display(base_dados)
 
 import plotly.express as px
 import matplotlib.pyplot as plt
@@ -104,20 +100,16 @@ import seaborn as sns
 
 display(base_dados['Decisao'].value_counts(normalize=True).map("{:.1%}".format))
 fig = px.histogram(base_dados, x="Decisao", color="Decisao")
-fig.show()
 
 
 base_dados.loc[base_dados["Decisao"]==1, "Decisao"] = 0
 display(base_dados['Decisao'].value_counts(normalize=True).map("{:.1%}".format))
 fig = px.histogram(base_dados, x="Decisao", color="Decisao")
-fig.show()
 
 correlacoes = base_dados.corr()
 
 fig, ax = plt.subplots(figsize=(15, 10))
 sns.heatmap(correlacoes, cmap="Wistia", ax=ax)
-plt.show()
-display(correlacoes)
 
 correlacoes_encontradas = []
 for coluna in correlacoes:
@@ -131,8 +123,6 @@ for coluna in correlacoes:
 remover = ['Ativo Circulante', 'Contas a Receber_1', 'Tributos a Recuperar', 'Passivo Total', 'Passivo Circulante', 'Patrimônio Líquido', 'Capital Social Realizado', 'Receita Líquida de Vendas e/ou Serviços', 'Resultado Bruto', 'Despesas Gerais e Administrativas']
 base_dados = base_dados.drop(remover, axis=1)
 
-print(base_dados.shape)
-
 
 from sklearn.ensemble import ExtraTreesClassifier
 
@@ -144,7 +134,6 @@ modelo.fit(x, y)
 caracteristicas_importantes = pd.DataFrame(modelo.feature_importances_, x.columns).sort_values(by=0, ascending=False)
 display(caracteristicas_importantes)
 top10 = list(caracteristicas_importantes.index)[:10]
-print(top10)
 
 from sklearn.preprocessing import StandardScaler
 
@@ -160,7 +149,6 @@ nova_base_dados = ajustar_scaler(base_dados)
 top10.append("Decisao") 
 
 nova_base_dados = nova_base_dados[top10].reset_index(drop=True)
-display(nova_base_dados)
 
 from sklearn.model_selection import train_test_split
 
