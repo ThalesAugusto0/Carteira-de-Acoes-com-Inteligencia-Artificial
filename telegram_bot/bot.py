@@ -54,7 +54,7 @@ def main():
     # Crie o Updater e passe a ele o token do seu bot.
     # Certifique-se de definir use_context = True para usar os novos callbacks baseados em contexto
     # Poste a versão 12, isso não será mais necessário
-    updater = Updater("1919779488:AAFQEYvus8E3W2LuV_KRZ0NG5W1X_051mkU", use_context=True)
+    updater = Updater("TELEGRAM_TOKEN_BOT", use_context=True)
 
     # Faça com que o despachante registre manipuladores
     dp = updater.dispatcher
